@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalable Business Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h2><i class="fas fa-rocket"></i> Business Dashboard</h2>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="active">Dashboard</a>
+                <a href="/revenue">Revenue</a>
+                <a href="/automation">Automation</a>
+                <a href="/health">Health</a>
+            </div>
+            <div class="nav-user">
+                <span id="user-info">Enam Consulting LLC</span>
+                <div class="connection-status" id="connection-status">
+                    <i class="fas fa-circle"></i> <span>Connected</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Alert Bar -->
+            <div id="alert-bar" class="alert-bar hidden">
+                <div class="alert-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="alert-message"></span>
+                    <button onclick="dismissAlert()"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+
+            <!-- Overview Cards -->
+            <div class="overview-grid">
+                <div class="overview-card revenue-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-dollar-sign"></i> Total Revenue</h3>
+                        <div class="card-actions">
+                            <button onclick="requestPayout()" class="btn-primary">
+                                <i class="fas fa-money-bill-wave"></i> Payout
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="main-metric">$<span id="total-revenue">0.00</span></div>
+                        <div class="sub-metrics">
+                            <div class="sub-metric">
+                                <span class="label">Today:</span>
+                                <span class="value">$<span id="today-revenue">0.00</span></span>
+                            </div>
+                            <div class="sub-metric">
+                                <span class="label">Available:</span>
+                                <span class="value">$<span id="available-balance">0.00</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-card platforms-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-server"></i> Platform Status</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="platform-grid">
+                            <div class="platform-status" data-platform="mobile-app">
+                                <div class="status-indicator unknown"></div>
+                                <span>Mobile Apps</span>
+                            </div>
+                            <div class="platform-status" data-platform="youtube">
+                                <div class="status-indicator unknown"></div>
+                                <span>YouTube</span>
+                            </div>
+                            <div class="platform-status" data-platform="print-on-demand">
+                                <div class="status-indicator unknown"></div>
+                                <span>Print-on-Demand</span>
+                            </div>
+                            <div class="platform-status" data-platform="online-course">
+                                <div class="status-indicator unknown"></div>
+                                <span>Courses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-card automation-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-robot"></i> Automation Status</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="automation-status">
+                            <div class="status-item">
+                                <span class="status-label">Active Workflows:</span>
+                                <span class="status-value" id="active-workflows">0</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Content Generated:</span>
+                                <span class="status-value" id="content-generated">0</span>
+                            </div>
+                            <div class="automation-controls">
+                                <button onclick="pauseAllAutomation()" class="btn-warning">
+                                    <i class="fas fa-pause"></i> Pause All
+                                </button>
+                                <button onclick="resumeAllAutomation()" class="btn-success">
+                                    <i class="fas fa-play"></i> Resume All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-card health-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-heartbeat"></i> System Health</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="health-status">
+                            <div class="health-indicator" id="system-health">
+                                <div class="status-icon unknown"></div>
+                                <span>Checking...</span>
+                            </div>
+                            <div class="health-metrics">
+                                <div class="metric">
+                                    <span>Uptime:</span>
+                                    <span id="system-uptime">--</span>
+                                </div>
+                                <div class="metric">
+                                    <span>Incidents:</span>
+                                    <span id="incident-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Sections -->
+            <div class="detail-sections">
+                <!-- Revenue Chart -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Revenue Trends</h3>
+                        <select id="revenue-timeframe" onchange="updateRevenueChart()">
+                            <option value="24h">Last 24 Hours</option>
+                            <option value="7d" selected>Last 7 Days</option>
+                            <option value="30d">Last 30 Days</option>
+                        </select>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="revenue-chart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Platform Performance -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tachometer-alt"></i> Platform Performance</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="performance-grid" id="platform-performance">
+                            <!-- Platform performance cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="detail-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="activity-feed" id="activity-feed">
+                            <div class="activity-item">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Dashboard initialized</span>
+                                <time>Just now</time>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payout Modal -->
+    <div id="payout-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-money-bill-wave"></i> Request Payout</h3>
+                <button onclick="closePayoutModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <div class="input-group">
+                        <span class="input-prefix">$</span>
+                        <input type="number" id="payout-amount" placeholder="0.00" step="0.01" min="10">
+                    </div>
+                    <small>Available balance: $<span id="modal-available-balance">0.00</span></small>
+                </div>
+                <div class="form-group">
+                    <label>Platform Source (Optional)</label>
+                    <select id="payout-platform">
+                        <option value="all">All Platforms</option>
+                        <option value="mobile-app">Mobile Apps</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="print-on-demand">Print-on-Demand</option>
+                        <option value="online-course">Online Courses</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bank Account</label>
+                    <select id="payout-destination">
+                        <option value="primary">Primary Bank Account (****1234)</option>
+                        <option value="business">Business Account (****5678)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closePayoutModal()" class="btn-secondary">Cancel</button>
+                <button onclick="processPayout()" class="btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send Payout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/socket-client.js"></script>
+</body>
+</html>

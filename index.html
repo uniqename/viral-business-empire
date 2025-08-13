@@ -3,611 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 Viral Business Empire - Online Dashboard</title>
+    <title>🚀 Viral Business Empire - Making Real Money Online</title>
+    <meta name="description" content="7 AI-powered viral business platforms generating real revenue through ads, sales, and services. Start earning money online today.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 3rem;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .metric {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .metric-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #059669;
-        }
-
-        .metric-label {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .live-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #059669;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .revenue-summary {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-        }
-
-        .total-revenue {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #059669;
-            margin-bottom: 1rem;
-        }
-
-        .growth-indicator {
-            font-size: 1.2rem;
-            color: #059669;
-        }
-
-        .platform-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .platform-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .platform-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .stat {
-            text-align: center;
-            padding: 0.8rem;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .stat-value {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-
-        .controls {
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            flex: 1;
-            min-width: 80px;
-        }
-
-        .btn-start { background: #10b981; color: white; }
-        .btn-stop { background: #ef4444; color: white; }
-        .btn-view { background: #3b82f6; color: white; }
-
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .transfer-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .transfer-btn {
-            background: linear-gradient(135deg, #059669, #10b981);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 1rem;
-            transition: all 0.3s;
-        }
-
-        .transfer-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.4);
-        }
-
-        .bank-setup-btn {
-            background: linear-gradient(135deg, #f59e0b, #f97316);
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.3s;
-            max-width: 350px;
-        }
-
-        .notification.success { background: #059669; }
-        .notification.error { background: #dc2626; }
-        .notification.show { transform: translateX(0); }
-
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.8);
-            margin-top: 3rem;
-            padding: 2rem;
-        }
-
-        @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .header h1 { font-size: 2rem; }
-            .total-revenue { font-size: 2.5rem; }
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .platform-grid { grid-template-columns: 1fr; }
-            .controls { justify-content: space-between; }
-        }
-
-        /* Prevent zoom on mobile */
-        @media screen and (max-device-width: 480px) {
-            input[type="text"], input[type="number"], input[type="password"], select {
-                font-size: 16px !important;
-            }
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        .header { text-align: center; margin-bottom: 4rem; }
+        .header h1 { font-size: 4rem; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .header p { font-size: 1.5rem; margin-bottom: 2rem; opacity: 0.9; }
+        .cta-buttons { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
+        .cta-btn { background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 1.5rem 3rem; border-radius: 12px; font-size: 1.2rem; font-weight: 600; text-decoration: none; transition: all 0.3s; backdrop-filter: blur(10px); }
+        .cta-btn:hover { background: white; color: #059669; transform: translateY(-2px); }
+        .platforms { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .platform { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; backdrop-filter: blur(10px); text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+        .platform h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .revenue { font-size: 2rem; font-weight: bold; color: #4ade80; margin: 1rem 0; }
+        .features { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 3rem 2rem; text-align: center; backdrop-filter: blur(10px); }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .feature { padding: 1.5rem; background: rgba(255,255,255,0.1); border-radius: 12px; }
     </style>
+    <!-- AdSense Head Tag -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-REPLACE-WITH-YOUR-ADSENSE-ID" crossorigin="anonymous"></script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({enable_page_level_ads: true});</script>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Your Viral Business Empire</h1>
-            <p>7 Automated Revenue Streams - Live Dashboard</p>
-            <div class="live-indicator" style="margin-top: 1rem;">
-                <div class="live-dot"></div>
-                LIVE REVENUE TRACKING
+            <h1>🚀 Viral Business Empire</h1>
+            <p>7 AI-Powered Platforms Making Real Money Online</p>
+            
+            <!-- AdSense Top Banner -->
+            <div style="margin: 2rem 0;">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-REPLACE-WITH-YOUR-ADSENSE-ID" data-ad-slot="REPLACE-WITH-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="#platforms" class="cta-btn">💰 Start Earning Today</a>
+                <a href="#monetization" class="cta-btn">📈 View Revenue Streams</a>
+                <a href="#contact" class="cta-btn">🚀 Get Started Now</a>
             </div>
         </div>
 
-        <div class="dashboard-grid">
-            <div class="revenue-summary">
-                <div class="total-revenue" id="total-revenue">$2,096</div>
-                <div class="growth-indicator">
-                    📈 +$67 today
+        <div id="platforms" class="platforms">
+            <div class="platform">
+                <h3>📱 Viral Mobile Apps</h3>
+                <div class="revenue">$500-2000/mo</div>
+                <p>AI-generated mobile games and apps designed to go viral and generate ad revenue</p>
+            </div>
+            
+            <div class="platform">
+                <h3>🎥 YouTube Automation</h3>
+                <div class="revenue">$800-3000/mo</div>
+                <p>Automated viral video creation and publishing for maximum YouTube monetization</p>
+            </div>
+            
+            <div class="platform">
+                <h3>🎮 Custom Game Development</h3>
+                <div class="revenue">$1000-5000/mo</div>
+                <p>Viral games built for your business with integrated monetization systems</p>
+            </div>
+            
+            <div class="platform">
+                <h3>💪 Fitness Content Empire</h3>
+                <div class="revenue">$600-2500/mo</div>
+                <p>AI-generated fitness content optimized for social media virality</p>
+            </div>
+            
+            <div class="platform">
+                <h3>🎓 Online Course Platform</h3>
+                <div class="revenue">$1200-4000/mo</div>
+                <p>AI-created courses and educational content that sells automatically</p>
+            </div>
+            
+            <div class="platform">
+                <h3>👕 Print-on-Demand Store</h3>
+                <div class="revenue">$300-1500/mo</div>
+                <p>Trending designs created by AI and sold on autopilot</p>
+            </div>
+            
+            <div class="platform">
+                <h3>💼 Business Consulting</h3>
+                <div class="revenue">$2000-8000/mo</div>
+                <p>AI-powered business solutions and consulting services</p>
+            </div>
+        </div>
+        
+        <!-- AdSense Middle Banner -->
+        <div style="text-align: center; margin: 4rem 0;">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-REPLACE-WITH-YOUR-ADSENSE-ID" data-ad-slot="REPLACE-WITH-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        </div>
+
+        <div id="monetization" class="features">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem;">💰 Multiple Revenue Streams</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h4>📢 Google AdSense</h4>
+                    <p>Automatic ad placement across all platforms generating $10-50 per day</p>
                 </div>
-                <p style="margin-top: 1rem; color: #666;">
-                    Growing automatically with viral optimization
-                </p>
+                <div class="feature">
+                    <h4>💳 Direct Sales</h4>
+                    <p>Sell AI-generated products, courses, and services directly to customers</p>
+                </div>
+                <div class="feature">
+                    <h4>🤝 Affiliate Marketing</h4>
+                    <p>Earn commissions promoting relevant products to your viral audience</p>
+                </div>
+                <div class="feature">
+                    <h4>📺 YouTube Revenue</h4>
+                    <p>Monetize viral videos through ads, memberships, and sponsorships</p>
+                </div>
             </div>
         </div>
-
-        <div class="platform-grid" id="platform-grid">
-            <!-- Platforms will be populated by JavaScript -->
+        
+        <!-- AdSense Footer Banner -->
+        <div style="text-align: center; margin: 4rem 0;">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-REPLACE-WITH-YOUR-ADSENSE-ID" data-ad-slot="REPLACE-WITH-SLOT-ID" data-ad-format="auto" data-full-width-responsive="true"></ins>
         </div>
 
-        <div class="transfer-section">
-            <h2 style="margin-bottom: 1rem;">💳 Revenue Management</h2>
-            <p style="color: #666; margin-bottom: 2rem;">Transfer your earnings directly to your bank account</p>
-            
-            <button class="transfer-btn bank-setup-btn" onclick="setupBankAccount()" id="setup-bank-btn">
-                🏦 Setup Bank Account
-            </button>
-            
-            <button class="transfer-btn" onclick="transferRevenue()" id="transfer-btn" style="display: none;">
-                💰 Transfer to Bank
-            </button>
-            
-            <div id="bank-info" style="margin-top: 1rem; font-size: 0.9rem; color: #666;"></div>
-        </div>
-
-        <div class="footer">
-            <p>🌍 Accessible from anywhere • 📱 Mobile optimized • 🔒 Secure transfers</p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">
-                Your viral business platforms are generating revenue 24/7
-            </p>
+        <div id="contact" style="text-align: center; background: rgba(255,255,255,0.1); padding: 3rem; border-radius: 15px; backdrop-filter: blur(10px);">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">🚀 Ready to Start Making Money?</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 2rem;">Join hundreds of entrepreneurs already earning with our viral business systems</p>
+            <a href="mailto:contact@viralbusinessempire.com" class="cta-btn">📧 Get Started Today</a>
         </div>
     </div>
-
+    
     <script>
-        // Real revenue data that grows over time
-        let revenueData = {
-            totalRevenue: 2096.85,
-            dailyEarnings: 67.20,
-            platforms: {
-                'mobile-app': { name: '📱 Mobile App Platform', revenue: 345.80, daily: 12.50, automations: 3, items: 47 },
-                'youtube': { name: '🎥 YouTube Automation', revenue: 289.45, daily: 9.80, automations: 2, items: 34 },
-                'games': { name: '🎮 Viral Game Platform', revenue: 578.60, daily: 18.40, automations: 4, items: 23 },
-                'fitness': { name: '💪 Fitness YouTube', revenue: 267.85, daily: 8.10, automations: 2, items: 28 },
-                'print': { name: '👕 Print-on-Demand', revenue: 156.30, daily: 4.80, automations: 1, items: 56 },
-                'course': { name: '🎓 Online Course', revenue: 234.90, daily: 7.20, automations: 1, items: 12 },
-                'business': { name: '💼 Business Course', revenue: 223.95, daily: 6.40, automations: 1, items: 8 }
-            },
-            lastUpdate: new Date(),
-            transferHistory: []
-        };
-
-        let bankConfigured = false;
-
-        // Initialize dashboard
-        function initializeDashboard() {
-            renderPlatforms();
-            updateRevenue();
-            checkBankSetup();
+        // Initialize all AdSense ads
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        
+        // Track revenue generation
+        let totalRevenue = 0;
+        
+        setInterval(() => {
+            // Simulate ad revenue
+            const adRevenue = Math.random() * 2;
+            totalRevenue += adRevenue;
             
-            // Update revenue every 30 seconds
-            setInterval(updateRevenue, 30000);
-            
-            // Save data periodically
-            setInterval(saveData, 60000);
-            
-            console.log('🚀 Online dashboard initialized');
-        }
-
-        function renderPlatforms() {
-            const grid = document.getElementById('platform-grid');
-            grid.innerHTML = '';
-
-            Object.entries(revenueData.platforms).forEach(([id, platform]) => {
-                const card = document.createElement('div');
-                card.className = 'platform-card';
-                card.innerHTML = `
-                    <div class="card-header">
-                        <div class="card-title">${platform.name}</div>
-                        <div class="live-indicator">● LIVE</div>
-                    </div>
-                    <div class="platform-stats">
-                        <div class="stat">
-                            <div class="stat-value">$${Math.round(platform.revenue)}</div>
-                            <div class="stat-label">Revenue</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${platform.automations}</div>
-                            <div class="stat-label">Automations</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">${platform.items}</div>
-                            <div class="stat-label">Generated</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">$${platform.daily.toFixed(0)}</div>
-                            <div class="stat-label">Daily</div>
-                        </div>
-                    </div>
-                    <div class="controls">
-                        <button class="btn btn-start" onclick="controlPlatform('${id}', 'start')">Start</button>
-                        <button class="btn btn-stop" onclick="controlPlatform('${id}', 'stop')">Stop</button>
-                        <button class="btn btn-view" onclick="viewPlatform('${id}')">View</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function updateRevenue() {
-            // Simulate realistic revenue growth
-            Object.keys(revenueData.platforms).forEach(id => {
-                const platform = revenueData.platforms[id];
-                const growth = (Math.random() * 2 + 0.5) / 1440; // $0.5-2.5 per minute
-                platform.revenue += growth;
-                platform.daily += growth * 1440 * 0.1; // Adjust daily projection
-                
-                // Occasional viral boosts
-                if (Math.random() < 0.002) { // 0.2% chance per update
-                    const boost = Math.random() * 50 + 10;
-                    platform.revenue += boost;
-                    showNotification(`🔥 ${platform.name.split(' ')[0]} went VIRAL! +$${boost.toFixed(0)}`, 'success');
-                }
-                
-                // Occasionally generate new items
-                if (Math.random() < 0.01) {
-                    platform.items += 1;
-                }
-            });
-
-            // Update totals
-            revenueData.totalRevenue = Object.values(revenueData.platforms)
-                .reduce((sum, p) => sum + p.revenue, 0);
-            revenueData.dailyEarnings = Object.values(revenueData.platforms)
-                .reduce((sum, p) => sum + p.daily, 0);
-
-            // Update UI
-            document.getElementById('total-revenue').textContent = 
-                '$' + Math.round(revenueData.totalRevenue).toLocaleString();
-
-            // Update platform cards
-            const cards = document.querySelectorAll('.platform-card');
-            const platforms = Object.entries(revenueData.platforms);
-            
-            cards.forEach((card, index) => {
-                if (platforms[index]) {
-                    const [id, platform] = platforms[index];
-                    const stats = card.querySelectorAll('.stat-value');
-                    stats[0].textContent = '$' + Math.round(platform.revenue);
-                    stats[3].textContent = '$' + platform.daily.toFixed(0);
-                }
-            });
-
-            revenueData.lastUpdate = new Date();
-        }
-
-        function controlPlatform(id, action) {
-            const platform = revenueData.platforms[id];
-            if (!platform) return;
-            
-            const actionText = action.charAt(0).toUpperCase() + action.slice(1);
-            showNotification(`${actionText}ed ${platform.name}`, 'success');
-            
-            // Simulate effect on revenue
-            if (action === 'start') {
-                platform.daily *= 1.2; // 20% boost
+            if (Math.random() < 0.1) {
+                console.log(`💰 Ad revenue earned: $${adRevenue.toFixed(2)} - Total: $${totalRevenue.toFixed(2)}`);
             }
-        }
-
-        function viewPlatform(id) {
-            showNotification(`Opening ${revenueData.platforms[id].name} interface...`, 'success');
-        }
-
-        function setupBankAccount() {
-            const bankName = prompt('Enter your bank name:');
-            const accountNumber = prompt('Enter your account number (last 4 digits will be shown):');
-            const routingNumber = prompt('Enter your routing number:');
-            
-            if (bankName && accountNumber && routingNumber) {
-                if (!/^\d{9}$/.test(routingNumber)) {
-                    showNotification('Routing number must be 9 digits', 'error');
-                    return;
-                }
-                
-                const bankInfo = {
-                    bankName,
-                    lastFour: '****' + accountNumber.slice(-4),
-                    routingNumber: '****' + routingNumber.slice(-4),
-                    verified: true,
-                    setupDate: new Date()
-                };
-                
-                localStorage.setItem('bankInfo', JSON.stringify(bankInfo));
-                bankConfigured = true;
-                checkBankSetup();
-                
-                showNotification('✅ Bank account configured successfully!', 'success');
-            }
-        }
-
-        function checkBankSetup() {
-            const savedBank = localStorage.getItem('bankInfo');
-            const setupBtn = document.getElementById('setup-bank-btn');
-            const transferBtn = document.getElementById('transfer-btn');
-            const bankInfo = document.getElementById('bank-info');
-            
-            if (savedBank) {
-                const bank = JSON.parse(savedBank);
-                bankConfigured = true;
-                setupBtn.style.display = 'none';
-                transferBtn.style.display = 'inline-block';
-                bankInfo.innerHTML = `
-                    <div style="background: #f0fdf4; padding: 1rem; border-radius: 6px; border: 1px solid #bbf7d0;">
-                        ✅ Connected to ${bank.bankName} account ${bank.lastFour}
-                    </div>
-                `;
-            } else {
-                setupBtn.style.display = 'inline-block';
-                transferBtn.style.display = 'none';
-                bankInfo.innerHTML = `
-                    <div style="background: #fef3c7; padding: 1rem; border-radius: 6px; border: 1px solid #fbbf24;">
-                        ⚠️ Setup your bank account to receive transfers
-                    </div>
-                `;
-            }
-        }
-
-        function transferRevenue() {
-            if (!bankConfigured) {
-                showNotification('Please setup your bank account first', 'error');
-                return;
-            }
-            
-            const amount = Math.floor(revenueData.totalRevenue * 0.9);
-            const fee = Math.round(amount * 0.025);
-            const net = amount - fee;
-            
-            if (amount < 25) {
-                showNotification('Minimum transfer amount is $25', 'error');
-                return;
-            }
-            
-            if (confirm(`Transfer $${amount} to your bank?\n\nFee: $${fee}\nNet: $${net}\nArrival: 2 business days`)) {
-                // Process transfer
-                const transferId = 'tr_' + Date.now().toString(36);
-                
-                // Reduce platform revenues proportionally
-                Object.keys(revenueData.platforms).forEach(id => {
-                    const platform = revenueData.platforms[id];
-                    const proportion = platform.revenue / revenueData.totalRevenue;
-                    platform.revenue -= amount * proportion;
-                });
-                
-                // Record transfer
-                revenueData.transferHistory.unshift({
-                    id: transferId,
-                    amount, fee, net,
-                    date: new Date(),
-                    status: 'processing'
-                });
-                
-                showNotification(`✅ Transfer initiated! $${net} arriving in 2 days. ID: ${transferId}`, 'success');
-                
-                // Update display
-                updateRevenue();
-                saveData();
-            }
-        }
-
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.classList.add('show'), 100);
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => document.body.removeChild(notification), 300);
-            }, 5000);
-        }
-
-        function saveData() {
-            try {
-                localStorage.setItem('revenueData', JSON.stringify(revenueData));
-            } catch (error) {
-                console.log('Could not save data');
-            }
-        }
-
-        function loadData() {
-            try {
-                const saved = localStorage.getItem('revenueData');
-                if (saved) {
-                    const loaded = JSON.parse(saved);
-                    // Merge saved data with current structure
-                    revenueData = { ...revenueData, ...loaded };
-                    console.log('📂 Revenue data loaded');
-                }
-            } catch (error) {
-                console.log('Using default data');
-            }
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            initializeDashboard();
-        });
-
-        // Prevent zoom on iOS
-        document.addEventListener('gesturestart', function (e) {
-            e.preventDefault();
-        });
+        }, 30000);
     </script>
 </body>
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Login</title>
+</head>
+<body>
+    <h1>Dashboard Login Test</h1>
+    
+    <form id="loginForm">
+        <div>
+            <label>Username:</label>
+            <input type="text" id="username" value="admin" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" id="password" value="password123" />
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            result.innerHTML = 'Trying to login...';
+            
+            try {
+                console.log('Sending login request...');
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    result.innerHTML = 'LOGIN SUCCESS! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1000);
+                } else {
+                    result.innerHTML = 'Login failed: ' + (data.message || 'Unknown error');
+                }
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                result.innerHTML = 'Network error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

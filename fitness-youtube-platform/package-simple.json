@@ -1,0 +1,13 @@
+{
+  "name": "fitness-youtube-platform-simple",
+  "version": "1.0.0",
+  "description": "Simplified fitness platform",
+  "main": "src/simple-app.js",
+  "scripts": {
+    "start": "node src/simple-app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

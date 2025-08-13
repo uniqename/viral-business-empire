@@ -1,0 +1,33 @@
+{
+  "name": "automation-workflows",
+  "version": "1.0.0",
+  "description": "Centralized automation workflows for all scalable business platforms",
+  "main": "src/orchestrator.js",
+  "scripts": {
+    "start": "node src/orchestrator.js",
+    "dev": "nodemon src/orchestrator.js",
+    "run-workflow": "node src/run-workflow.js"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.2",
+    "axios": "^1.5.0",
+    "uuid": "^9.0.1",
+    "dotenv": "^16.3.1",
+    "winston": "^3.10.0",
+    "bull": "^4.11.4",
+    "redis": "^4.6.8",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "automation",
+    "workflows",
+    "cron-jobs",
+    "business-automation",
+    "scalable"
+  ],
+  "author": "Enam Consulting LLC",
+  "license": "MIT"
+}

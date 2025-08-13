@@ -1,0 +1,4 @@
+objc[63554]: Class GNotificationCenterDelegate is implemented in both /opt/homebrew/Cellar/glib/2.84.3/lib/libgio-2.0.0.dylib (0x10b0744b8) and /Users/enamegyir/Documents/Projects/ScalableBusinessPlatforms/game-app-platform/node_modules/sharp/vendor/8.14.5/darwin-arm64v8/lib/libvips-cpp.42.dylib (0x10e74da40). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+🎮 Game App Platform running on port 3005
+🔥 Viral game generation system active!
+🎯 Algorithm-optimized for maximum downloads

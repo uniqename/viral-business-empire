@@ -1,0 +1,33 @@
+{
+  "name": "game-app-platform",
+  "version": "1.0.0",
+  "description": "AI-powered game development and monetization platform",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "generate-game": "node src/scripts/generate-game.js",
+    "deploy-game": "node src/scripts/deploy-game.js"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "canvas": "^2.11.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jimp": "^0.22.10",
+    "openai": "^4.8.0",
+    "sharp": "^0.32.6",
+    "socket.io": "^4.7.2",
+    "uuid": "^9.0.1"
+  },
+  "keywords": [
+    "game-development",
+    "ai-games",
+    "mobile-games",
+    "unity",
+    "monetization"
+  ],
+  "author": "Enam Consulting LLC",
+  "license": "MIT"
+}

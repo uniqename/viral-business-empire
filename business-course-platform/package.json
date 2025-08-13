@@ -1,0 +1,38 @@
+{
+  "name": "business-course-platform",
+  "version": "1.0.0",
+  "description": "AI-powered business education and entrepreneurship course platform",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "generate-course": "node src/scripts/generate-course.js",
+    "create-business-content": "node src/scripts/create-content.js"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "canvas": "^2.11.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "moment": "^2.29.4",
+    "mongoose": "^7.5.0",
+    "nodemailer": "^6.9.6",
+    "openai": "^4.8.0",
+    "sharp": "^0.32.5",
+    "socket.io": "^4.7.2",
+    "stripe": "^13.5.0",
+    "uuid": "^9.0.1"
+  },
+  "keywords": [
+    "business-education",
+    "entrepreneurship",
+    "online-courses",
+    "business-training",
+    "ai-education"
+  ],
+  "author": "Enam Consulting LLC",
+  "license": "MIT"
+}

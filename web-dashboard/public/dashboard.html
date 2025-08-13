@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalable Business Dashboard - Enam Consulting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-left h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-left p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .platform-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .platform-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .platform-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .health-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .health-healthy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .health-unhealthy {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .platform-content {
+            padding: 1rem;
+        }
+
+        .platform-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .platform-controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .btn-start {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-stop {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-restart {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-view {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .control-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .revenue-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .revenue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .transfer-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .emergency-section {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .emergency-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+        }
+
+        .notification.success {
+            background: #059669;
+        }
+
+        .notification.error {
+            background: #dc2626;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 0 1rem;
+            }
+            
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h1>🚀 Scalable Business Empire</h1>
+                <p>7 Automated Revenue Streams - Enam Consulting LLC</p>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Live Monitoring</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading dashboard data...</p>
+        </div>
+
+        <div id="dashboard-content" style="display: none;">
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon">💰</div>
+                    <div class="card-value" id="total-revenue">$0</div>
+                    <div class="card-label">Total Revenue</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">🟢</div>
+                    <div class="card-value" id="healthy-platforms">0/7</div>
+                    <div class="card-label">Healthy Platforms</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-value" id="active-automations">0</div>
+                    <div class="card-label">Active Automations</div>
+                </div>
+                <div class="summary-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-value" id="daily-earnings">$0</div>
+                    <div class="card-label">Today's Earnings</div>
+                </div>
+            </div>
+
+            <div class="platforms-grid" id="platforms-grid">
+                <!-- Platform cards will be dynamically generated -->
+            </div>
+
+            <div class="revenue-section">
+                <div class="revenue-header">
+                    <h2>💳 Revenue Management</h2>
+                    <div id="revenue-controls">
+                        <button class="transfer-btn" onclick="transferRevenue()" id="transfer-btn">
+                            Transfer to Bank Account
+                        </button>
+                        <button class="transfer-btn" onclick="setupBank()" id="setup-bank-btn" style="background: #f59e0b; display: none;">
+                            Setup Bank Account
+                        </button>
+                    </div>
+                </div>
+                <div id="revenue-details">
+                    <!-- Revenue breakdown will be populated -->
+                </div>
+            </div>
+
+            <div class="emergency-section">
+                <h3>🚨 Emergency Controls</h3>
+                <p style="margin: 1rem 0;">Stop all automation across all platforms immediately</p>
+                <button class="emergency-btn" onclick="emergencyStop()">
+                    EMERGENCY STOP ALL
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket;
+        let dashboardData = {};
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSocket();
+            loadDashboardData();
+        });
+
+        function initializeSocket() {
+            socket = io();
+            
+            socket.on('health-update', (healthData) => {
+                updateHealthStatus(healthData);
+            });
+
+            socket.on('error', (error) => {
+                showNotification(error.message, 'error');
+            });
+        }
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/dashboard/overview');
+                const data = await response.json();
+                
+                if (data.success) {
+                    dashboardData = data;
+                    renderDashboard(data);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+                showNotification('Failed to load dashboard data', 'error');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+            }
+        }
+
+        async function renderDashboard(data) {
+            // Update summary cards
+            document.getElementById('total-revenue').textContent = `$${data.summary.totalRevenue.toLocaleString()}`;
+            document.getElementById('healthy-platforms').textContent = `${data.summary.healthyPlatforms}/${data.summary.totalPlatforms}`;
+            document.getElementById('active-automations').textContent = data.summary.activeAutomations;
+            
+            // Calculate daily earnings (placeholder)
+            const dailyEarnings = Math.round(data.summary.totalRevenue / 30);
+            document.getElementById('daily-earnings').textContent = `$${dailyEarnings.toLocaleString()}`;
+
+            // Render platform cards
+            renderPlatformCards(data.health, data.analytics);
+            
+            // Check bank configuration status
+            await checkBankConfiguration();
+        }
+
+        async function checkBankConfiguration() {
+            try {
+                const response = await fetch('/api/revenue/summary');
+                const data = await response.json();
+                
+                const transferBtn = document.getElementById('transfer-btn');
+                const setupBankBtn = document.getElementById('setup-bank-btn');
+                
+                if (data.success && data.isConfigured) {
+                    transferBtn.style.display = 'inline-block';
+                    setupBankBtn.style.display = 'none';
+                    
+                    // Update revenue details
+                    const revenueDetails = document.getElementById('revenue-details');
+                    revenueDetails.innerHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #059669;">$${data.totalBalance.toFixed(2)}</div>
+                                <div style="font-size: 0.9rem; color: #666;">Total Balance</div>
+                            </div>
+                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: #3b82f6;">$${data.availableForTransfer.toFixed(2)}</div>
+                                <div style="font-size: 0.9rem; color: #666;">Available for Transfer</div>
+                            </div>
+                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 5px;">
+                                <div style="font-size: 1rem; font-weight: bold;">${data.bankAccount.bankName}</div>
+                                <div style="font-size: 0.9rem; color: #666;">${data.bankAccount.lastFour}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    transferBtn.style.display = 'none';
+                    setupBankBtn.style.display = 'inline-block';
+                    
+                    const revenueDetails = document.getElementById('revenue-details');
+                    revenueDetails.innerHTML = `
+                        <div style="background: #fef3c7; border: 1px solid #fbbf24; border-radius: 5px; padding: 1rem; margin-top: 1rem; text-align: center;">
+                            <strong>⚠️ Bank Account Required</strong><br>
+                            Configure your bank account to receive revenue transfers from your viral business platforms.
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Failed to check bank configuration:', error);
+            }
+        }
+
+        function setupBank() {
+            window.location.href = '/bank-setup';
+        }
+
+        function renderPlatformCards(healthData, analyticsData) {
+            const platformsGrid = document.getElementById('platforms-grid');
+            platformsGrid.innerHTML = '';
+
+            const platformConfigs = {
+                'mobile-app': { name: '📱 Mobile App/Game', icon: '📱' },
+                'youtube-automation': { name: '🎥 YouTube Automation', icon: '🎥' },
+                'print-on-demand': { name: '👕 Print-on-Demand', icon: '👕' },
+                'online-course': { name: '🎓 Online Course', icon: '🎓' },
+                'game-app': { name: '🎮 Game App Platform', icon: '🎮' },
+                'fitness-youtube': { name: '💪 Fitness YouTube', icon: '💪' },
+                'business-course': { name: '💼 Business Course', icon: '💼' }
+            };
+
+            for (const [platformId, config] of Object.entries(platformConfigs)) {
+                const health = healthData[platformId] || { status: 'unknown' };
+                const analytics = analyticsData[platformId] || { analytics: {} };
+                
+                const card = createPlatformCard(platformId, config, health, analytics);
+                platformsGrid.appendChild(card);
+            }
+        }
+
+        function createPlatformCard(platformId, config, health, analytics) {
+            const card = document.createElement('div');
+            card.className = 'platform-card';
+            
+            const healthClass = health.status === 'healthy' ? 'health-healthy' : 'health-unhealthy';
+            const healthText = health.status === 'healthy' ? '✓ Healthy' : '⚠ Issues';
+            
+            const revenue = analytics.analytics?.revenue || 0;
+            const automations = analytics.analytics?.activeAutomations || 0;
+            const generated = analytics.analytics?.itemsGenerated || 0;
+
+            card.innerHTML = `
+                <div class="platform-header">
+                    <div class="platform-title">
+                        ${config.icon} ${config.name}
+                    </div>
+                    <div class="health-badge ${healthClass}">
+                        ${healthText}
+                    </div>
+                </div>
+                <div class="platform-content">
+                    <div class="platform-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">$${revenue.toLocaleString()}</div>
+                            <div class="stat-label">Revenue</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${automations}</div>
+                            <div class="stat-label">Automations</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${generated}</div>
+                            <div class="stat-label">Generated</div>
+                        </div>
+                    </div>
+                    <div class="platform-controls">
+                        <button class="control-btn btn-start" onclick="controlPlatform('${platformId}', 'start')">Start</button>
+                        <button class="control-btn btn-stop" onclick="controlPlatform('${platformId}', 'stop')">Stop</button>
+                        <button class="control-btn btn-restart" onclick="controlPlatform('${platformId}', 'restart')">Restart</button>
+                        <button class="control-btn btn-view" onclick="viewPlatform('${platformId}')">View</button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        async function controlPlatform(platformId, action) {
+            try {
+                showNotification(`${action.charAt(0).toUpperCase() + action.slice(1)}ing ${platformId}...`, 'success');
+                
+                const response = await fetch(`/api/automation/${platformId}/${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(`${platformId} ${action} successful`, 'success');
+                    loadDashboardData(); // Refresh data
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                showNotification(`Failed to ${action} ${platformId}: ${error.message}`, 'error');
+            }
+        }
+
+        function viewPlatform(platformId) {
+            const platformUrls = {
+                'mobile-app': 'http://localhost:3001',
+                'youtube-automation': 'http://localhost:3002',
+                'print-on-demand': 'http://localhost:3003',
+                'online-course': 'http://localhost:3004',
+                'game-app': 'http://localhost:3005',
+                'fitness-youtube': 'http://localhost:3006',
+                'business-course': 'http://localhost:3007'
+            };
+            
+            window.open(platformUrls[platformId], '_blank');
+        }
+
+        async function transferRevenue() {
+            try {
+                // Get current revenue data first
+                const revenueResponse = await fetch('/api/revenue/summary');
+                const revenueData = await revenueResponse.json();
+                
+                if (!revenueData.success) {
+                    throw new Error('Failed to fetch revenue data');
+                }
+                
+                const available = revenueData.availableForTransfer;
+                const bankAccount = revenueData.bankAccount;
+                
+                if (available <= 0) {
+                    showNotification('No funds available for transfer', 'error');
+                    return;
+                }
+                
+                const message = `Transfer $${available.toFixed(2)} to ${bankAccount.bank} account ${bankAccount.lastFour}?\n\nEstimated arrival: 2 business days\nProcessing fee: $${(available * 0.025).toFixed(2)}\nNet amount: $${(available * 0.975).toFixed(2)}`;
+                
+                if (confirm(message)) {
+                    showNotification('Processing revenue transfer...', 'success');
+                    
+                    const transferResponse = await fetch('/api/revenue/transfer', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            amount: available,
+                            bankAccountId: 'default' 
+                        })
+                    });
+                    
+                    const transferResult = await transferResponse.json();
+                    
+                    if (transferResult.success) {
+                        showNotification(`✅ Transfer initiated! $${transferResult.netAmount.toFixed(2)} will arrive in 2 business days. Transfer ID: ${transferResult.transferId}`, 'success');
+                        loadDashboardData(); // Refresh to show updated balance
+                    } else {
+                        throw new Error(transferResult.error);
+                    }
+                }
+            } catch (error) {
+                showNotification('Transfer failed: ' + error.message, 'error');
+            }
+        }
+
+        async function emergencyStop() {
+            if (confirm('⚠️ This will immediately stop ALL automation across ALL platforms. Are you sure?')) {
+                try {
+                    const response = await fetch('/api/emergency/stop-all', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        showNotification('🚨 Emergency stop activated - All platforms stopped', 'error');
+                        loadDashboardData();
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (error) {
+                    showNotification('Emergency stop failed: ' + error.message, 'error');
+                }
+            }
+        }
+
+        function updateHealthStatus(healthData) {
+            // Update health indicators in real-time
+            for (const [platformId, health] of Object.entries(healthData)) {
+                const card = document.querySelector(`[data-platform="${platformId}"]`);
+                if (card) {
+                    const healthBadge = card.querySelector('.health-badge');
+                    const healthClass = health.status === 'healthy' ? 'health-healthy' : 'health-unhealthy';
+                    const healthText = health.status === 'healthy' ? '✓ Healthy' : '⚠ Issues';
+                    
+                    healthBadge.className = `health-badge ${healthClass}`;
+                    healthBadge.textContent = healthText;
+                }
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.href = '/login';
+            } catch (error) {
+                console.error('Logout error:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        // Auto-refresh dashboard every 60 seconds
+        setInterval(loadDashboardData, 60000);
+    </script>
+</body>
+</html>

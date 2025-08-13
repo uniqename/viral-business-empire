@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Test</title>
+</head>
+<body>
+    <h1>Dashboard Network Test</h1>
+    <div id="results"></div>
+
+    <script>
+        async function runNetworkTests() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Running network tests...</p>';
+            
+            const tests = [];
+            
+            // Test 1: Basic fetch to same origin
+            tests.push({
+                name: 'Basic fetch test',
+                test: async () => {
+                    const response = await fetch('/network-test.html');
+                    return { status: response.status, ok: response.ok };
+                }
+            });
+            
+            // Test 2: API endpoint test
+            tests.push({
+                name: 'API endpoint test',
+                test: async () => {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username: 'test', password: 'test' })
+                    });
+                    return { status: response.status, ok: response.ok };
+                }
+            });
+            
+            // Test 3: CORS test
+            tests.push({
+                name: 'CORS test with credentials',
+                test: async () => {
+                    const response = await fetch('/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'same-origin',
+                        body: JSON.stringify({ username: 'admin', password: 'password123' })
+                    });
+                    const data = await response.json();
+                    return { status: response.status, data };
+                }
+            });
+            
+            let output = '<h2>Test Results:</h2>';
+            
+            for (const test of tests) {
+                try {
+                    const result = await test.test();
+                    output += `<p>✅ <strong>${test.name}:</strong> Success - ${JSON.stringify(result)}</p>`;
+                } catch (error) {
+                    output += `<p>❌ <strong>${test.name}:</strong> Error - ${error.message}</p>`;
+                }
+            }
+            
+            // Browser info
+            output += '<h3>Browser Info:</h3>';
+            output += `<p>User Agent: ${navigator.userAgent}</p>`;
+            output += `<p>Location: ${window.location.href}</p>`;
+            
+            results.innerHTML = output;
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', runNetworkTests);
+    </script>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Account Setup - Business Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e1e1;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: #6b7280;
+            margin-right: 1rem;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            color: #166534;
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .security-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Bank Account Setup</h1>
+            <p>Configure your bank account for revenue transfers</p>
+        </div>
+
+        <div class="card">
+            <div class="security-info">
+                🔒 <strong>Security Notice:</strong> Your bank account information is encrypted and securely stored. 
+                We use industry-standard security measures to protect your financial data.
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+
+            <form id="bank-setup-form">
+                <div class="form-group">
+                    <label for="bank-name">Bank Name</label>
+                    <input type="text" id="bank-name" name="bankName" required 
+                           placeholder="e.g., Chase Bank, Bank of America">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="routing-number">Routing Number</label>
+                        <input type="text" id="routing-number" name="routingNumber" required 
+                               pattern="[0-9]{9}" maxlength="9" placeholder="123456789">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="account-type">Account Type</label>
+                        <select id="account-type" name="accountType" required>
+                            <option value="">Select Account Type</option>
+                            <option value="Business Checking">Business Checking</option>
+                            <option value="Business Savings">Business Savings</option>
+                            <option value="Personal Checking">Personal Checking</option>
+                            <option value="Personal Savings">Personal Savings</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="account-number">Account Number</label>
+                    <input type="text" id="account-number" name="accountNumber" required 
+                           minlength="4" maxlength="20" placeholder="Your account number">
+                </div>
+
+                <div class="form-group">
+                    <label for="account-holder">Account Holder Name</label>
+                    <input type="text" id="account-holder" name="accountHolder" required 
+                           placeholder="Business Name or Your Full Name">
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    Setting up bank account...
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button type="button" class="btn back-btn" onclick="goBack()">
+                        ← Back to Dashboard
+                    </button>
+                    <button type="submit" class="btn" id="setup-btn">
+                        Setup Bank Account
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>📋 Setup Instructions</h3>
+            <ol style="margin: 1rem 0; padding-left: 1.5rem; line-height: 1.6;">
+                <li>Enter your bank name exactly as it appears on your statements</li>
+                <li>Find your 9-digit routing number on your checks or bank website</li>
+                <li>Enter your complete account number</li>
+                <li>Ensure the account holder name matches your bank records</li>
+                <li>Choose the correct account type for tax purposes</li>
+            </ol>
+            
+            <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
+                <strong>Note:</strong> After setup, transfers typically take 2-3 business days to process. 
+                A small processing fee (2.5%) applies to cover payment processing costs.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const bankSetupForm = document.getElementById('bank-setup-form');
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        const loading = document.getElementById('loading');
+        const setupBtn = document.getElementById('setup-btn');
+
+        bankSetupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(bankSetupForm);
+            const bankData = {
+                bankName: formData.get('bankName'),
+                routingNumber: formData.get('routingNumber'),
+                accountNumber: formData.get('accountNumber'),
+                accountType: formData.get('accountType'),
+                accountHolder: formData.get('accountHolder')
+            };
+
+            // Basic validation
+            if (!bankData.bankName || !bankData.routingNumber || !bankData.accountNumber) {
+                showError('Please fill in all required fields');
+                return;
+            }
+
+            if (!/^\d{9}$/.test(bankData.routingNumber)) {
+                showError('Routing number must be exactly 9 digits');
+                return;
+            }
+
+            if (bankData.accountNumber.length < 4) {
+                showError('Account number must be at least 4 digits');
+                return;
+            }
+
+            showLoading(true);
+            hideMessages();
+
+            try {
+                const response = await fetch('/api/revenue/bank-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bankData),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('✅ Bank account configured successfully! You can now receive transfers.');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                } else {
+                    showError(result.error || 'Failed to setup bank account');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+        }
+
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        function showLoading(show) {
+            if (show) {
+                loading.style.display = 'block';
+                setupBtn.disabled = true;
+            } else {
+                loading.style.display = 'none';
+                setupBtn.disabled = false;
+            }
+        }
+
+        function goBack() {
+            window.location.href = '/dashboard';
+        }
+
+        // Format routing number input
+        document.getElementById('routing-number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').substring(0, 9);
+        });
+
+        // Format account number input
+        document.getElementById('account-number').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        // Load existing bank account info if available
+        async function loadExistingBankInfo() {
+            try {
+                const response = await fetch('/api/revenue/bank-account');
+                const result = await response.json();
+                
+                if (result.success && result.bankAccount.isConfigured) {
+                    showSuccess('✅ Bank account already configured: ' + result.bankAccount.bankName + ' ' + result.bankAccount.lastFour);
+                }
+            } catch (error) {
+                // No existing bank account, continue with setup
+            }
+        }
+
+        loadExistingBankInfo();
+    </script>
+</body>
+</html>
