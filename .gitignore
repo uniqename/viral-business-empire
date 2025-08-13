@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Environment variables (IMPORTANT: Protects your Stripe keys)
+.env
+.env.local
+.env.production
+
+# Runtime data
+logs/
+*.log
+pids/
+*.pid
+*.seed
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+build/
+dist/
+*.tgz
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database
+*.sqlite
+*.db
+
+# Security - Never commit these!
+stripe-keys.txt
+config.secret.js
+private-keys/

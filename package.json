@@ -2,12 +2,19 @@
   "name": "viral-business-empire",
   "version": "1.0.0",
   "description": "7 Viral Business Platforms for Real Revenue Generation",
-  "main": "index.js",
+  "main": "stripe-backend-api.js",
   "scripts": {
     "build": "echo 'Build complete'",
-    "start": "echo 'Starting viral business empire'"
+    "start": "node stripe-backend-api.js",
+    "dev": "node real-revenue-api.js",
+    "stripe": "node stripe-backend-api.js"
   },
-  "keywords": ["viral", "business", "revenue", "ai", "monetization"],
+  "keywords": ["viral", "business", "revenue", "ai", "monetization", "stripe"],
   "author": "Your Business Empire",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "stripe": "^13.0.0",
+    "cors": "^2.8.5"
+  }
 }
