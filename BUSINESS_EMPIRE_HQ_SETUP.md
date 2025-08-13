@@ -44,7 +44,7 @@
 ```
 🚀 Introducing Business Empire HQ
 
-Building 7 different revenue streams simultaneously:
+Building 7 revenue streams:
 📱 Mobile apps
 🎥 Content platforms  
 🎮 Development services
@@ -53,13 +53,11 @@ Building 7 different revenue streams simultaneously:
 👕 E-commerce
 💼 Consulting
 
-Current: $3,700+/month across all streams
-
-Follow for transparent business building 💰
+Current: $3,700+/month
 
 Live dashboard: https://businessempire.netlify.app
 
-#BusinessEmpire #Entrepreneur #MultipleStreams
+#BusinessEmpire #Entrepreneur
 ```
 
 ---
