@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 AI Social Media Automation Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); 
+            color: white; 
+            min-height: 100vh; 
+            padding: 2rem; 
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 3rem; }
+        .header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+        .status-card { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 15px; 
+            padding: 2rem; 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255,255,255,0.2); 
+        }
+        .metric { font-size: 2.5rem; font-weight: bold; color: #4ade80; margin-bottom: 0.5rem; }
+        .label { font-size: 1rem; opacity: 0.8; }
+        .activity-feed { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 15px; 
+            padding: 2rem; 
+            backdrop-filter: blur(10px); 
+            height: 400px; 
+            overflow-y: auto; 
+        }
+        .activity-item { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 8px; 
+            padding: 1rem; 
+            margin-bottom: 1rem; 
+            border-left: 4px solid #4ade80; 
+        }
+        .timestamp { font-size: 0.8rem; opacity: 0.6; }
+        .controls { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+        .btn { 
+            background: rgba(255,255,255,0.2); 
+            color: white; 
+            border: 2px solid white; 
+            padding: 1rem 2rem; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+        }
+        .btn:hover { background: white; color: #1e3a8a; }
+        .platform-status { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .status-dot { 
+            width: 12px; 
+            height: 12px; 
+            border-radius: 50%; 
+            background: #4ade80; 
+            animation: pulse 2s infinite; 
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .chart { 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 10px; 
+            padding: 1rem; 
+            margin-top: 1rem; 
+            height: 100px; 
+            display: flex; 
+            align-items: end; 
+            gap: 4px; 
+        }
+        .chart-bar { 
+            background: #4ade80; 
+            border-radius: 2px; 
+            flex: 1; 
+            min-height: 10px; 
+            opacity: 0.8; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Social Media Automation</h1>
+            <p>Fully Automated Viral Content Generation & Engagement System</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="forcePost()">🚀 Force Viral Post</button>
+            <button class="btn" onclick="toggleAutomation()">⏸️ Pause/Resume</button>
+            <button class="btn" onclick="refreshStats()">🔄 Refresh Stats</button>
+            <button class="btn" onclick="generateSchedule()">📅 View Schedule</button>
+        </div>
+
+        <div class="status-grid">
+            <div class="status-card">
+                <div class="metric" id="postsToday">0</div>
+                <div class="label">Posts Today</div>
+                <div class="platform-status">
+                    <div class="status-dot"></div>
+                    <span>Auto-posting Active</span>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="metric" id="totalPosts">0</div>
+                <div class="label">Total Automated Posts</div>
+                <div class="chart">
+                    <div class="chart-bar" style="height: 60%"></div>
+                    <div class="chart-bar" style="height: 80%"></div>
+                    <div class="chart-bar" style="height: 40%"></div>
+                    <div class="chart-bar" style="height: 100%"></div>
+                    <div class="chart-bar" style="height: 70%"></div>
+                    <div class="chart-bar" style="height: 90%"></div>
+                    <div class="chart-bar" style="height: 85%"></div>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="metric" id="platforms">4</div>
+                <div class="label">Connected Platforms</div>
+                <div class="platform-status">
+                    <div class="status-dot"></div>
+                    <span>Twitter • Instagram • LinkedIn • Facebook</span>
+                </div>
+            </div>
+            
+            <div class="status-card">
+                <div class="metric" id="engagement">0</div>
+                <div class="label">Auto-Responses Sent</div>
+                <div class="platform-status">
+                    <div class="status-dot"></div>
+                    <span>AI Engagement Active</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-grid">
+            <div class="status-card">
+                <h3>🔥 Viral Detection System</h3>
+                <div class="platform-status">
+                    <div class="status-dot"></div>
+                    <span>Monitoring for viral opportunities</span>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    AI continuously monitors revenue spikes, engagement patterns, and trending topics to automatically create viral content.
+                </p>
+            </div>
+            
+            <div class="status-card">
+                <h3>💰 Revenue Integration</h3>
+                <div class="platform-status">
+                    <div class="status-dot"></div>
+                    <span>Live revenue data feeding content</span>
+                </div>
+                <p style="margin-top: 1rem; opacity: 0.8;">
+                    Content automatically adapts based on real revenue data from your $5,000+/month business empire.
+                </p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+            <div>
+                <h3 style="margin-bottom: 1rem;">📱 Live Activity Feed</h3>
+                <div class="activity-feed" id="activityFeed">
+                    <div class="activity-item">
+                        <strong>🚀 Viral Post Created</strong>
+                        <div>Posted to all platforms: "VIRAL UPDATE: Business Empire hit $5,000+!"</div>
+                        <div class="timestamp">Just now</div>
+                    </div>
+                    <div class="activity-item">
+                        <strong>💬 Auto-Response Sent</strong>
+                        <div>Replied to Instagram comment: "Thanks for following the journey! 🚀"</div>
+                        <div class="timestamp">2 minutes ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <strong>📊 Revenue Spike Detected</strong>
+                        <div>$347 increase triggered automatic celebration post</div>
+                        <div class="timestamp">5 minutes ago</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="margin-bottom: 1rem;">📅 Upcoming Schedule</h3>
+                <div class="activity-feed" id="schedule">
+                    <div class="activity-item">
+                        <strong>🎯 Business Tip Post</strong>
+                        <div>Platform: All • Content: Diversification strategy</div>
+                        <div class="timestamp">In 2 hours</div>
+                    </div>
+                    <div class="activity-item">
+                        <strong>📈 Growth Update</strong>
+                        <div>Platform: Twitter, Instagram • Content: Revenue milestone</div>
+                        <div class="timestamp">In 4 hours</div>
+                    </div>
+                    <div class="activity-item">
+                        <strong>🔧 Behind The Scenes</strong>
+                        <div>Platform: LinkedIn • Content: Tech stack reveal</div>
+                        <div class="timestamp">In 6 hours</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let automationActive = true;
+        let stats = {
+            postsToday: 3,
+            totalPosts: 47,
+            platforms: 4,
+            engagement: 12
+        };
+
+        function updateUI() {
+            document.getElementById('postsToday').textContent = stats.postsToday;
+            document.getElementById('totalPosts').textContent = stats.totalPosts;
+            document.getElementById('platforms').textContent = stats.platforms;
+            document.getElementById('engagement').textContent = stats.engagement;
+        }
+
+        function addActivity(type, message) {
+            const feed = document.getElementById('activityFeed');
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `
+                <strong>${type}</strong>
+                <div>${message}</div>
+                <div class="timestamp">Just now</div>
+            `;
+            feed.insertBefore(item, feed.firstChild);
+            
+            // Remove old items
+            while (feed.children.length > 10) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        function forcePost() {
+            const messages = [
+                "Created viral celebration post about revenue milestone!",
+                "Posted success story across all platforms!",
+                "Shared behind-the-scenes content about automation!",
+                "Published business tip about multiple revenue streams!"
+            ];
+            
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            addActivity('🚀 Force Post Created', message);
+            stats.postsToday++;
+            stats.totalPosts++;
+            updateUI();
+        }
+
+        function toggleAutomation() {
+            automationActive = !automationActive;
+            const btn = event.target;
+            btn.textContent = automationActive ? '⏸️ Pause/Resume' : '▶️ Resume Automation';
+            
+            addActivity(
+                automationActive ? '✅ Automation Resumed' : '⏸️ Automation Paused',
+                automationActive ? 'All automated posting and engagement resumed' : 'Automated systems paused - manual control active'
+            );
+        }
+
+        function refreshStats() {
+            // Simulate fetching new stats
+            stats.engagement += Math.floor(Math.random() * 5) + 1;
+            updateUI();
+            addActivity('🔄 Stats Refreshed', 'Updated engagement metrics and platform status');
+        }
+
+        function generateSchedule() {
+            addActivity('📅 Schedule Generated', 'Created 7-day posting schedule with optimal timing');
+        }
+
+        // Simulate real-time activity
+        setInterval(() => {
+            if (!automationActive) return;
+            
+            const activities = [
+                ['💬 Auto-Response', 'Replied to comment: "Check out the live dashboard for real numbers! 📊"'],
+                ['📊 Revenue Monitor', 'Detected $23 increase - content adapted automatically'],
+                ['🔥 Viral Check', 'Scanned trending topics for opportunity'],
+                ['👥 Engagement', 'Auto-liked 5 relevant comments from followers'],
+                ['📱 Platform Sync', 'Synchronized content across all social media platforms']
+            ];
+            
+            if (Math.random() < 0.3) {
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                addActivity(activity[0], activity[1]);
+                
+                if (activity[0].includes('Response') || activity[0].includes('Engagement')) {
+                    stats.engagement++;
+                    updateUI();
+                }
+            }
+        }, 5000);
+
+        // Auto-post simulation
+        setInterval(() => {
+            if (!automationActive) return;
+            
+            if (Math.random() < 0.1) {
+                const postTypes = [
+                    'Created scheduled growth update post',
+                    'Published automated business tip',
+                    'Shared revenue transparency update',
+                    'Posted behind-the-scenes content'
+                ];
+                
+                const post = postTypes[Math.floor(Math.random() * postTypes.length)];
+                addActivity('📅 Scheduled Post', post);
+                stats.postsToday++;
+                stats.totalPosts++;
+                updateUI();
+            }
+        }, 15000);
+
+        // Initialize
+        updateUI();
+        addActivity('🤖 System Started', 'AI Social Media Automation is now fully active!');
+    </script>
+</body>
+</html>

@@ -9,12 +9,22 @@
     "dev": "node real-revenue-api.js",
     "stripe": "node stripe-backend-api.js"
   },
-  "keywords": ["viral", "business", "revenue", "ai", "monetization", "stripe"],
+  "keywords": [
+    "viral",
+    "business",
+    "revenue",
+    "ai",
+    "monetization",
+    "stripe"
+  ],
   "author": "Your Business Empire",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.0",
-    "stripe": "^13.0.0",
-    "cors": "^2.8.5"
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "express": "^4.21.2",
+    "oauth-1.0a": "^2.2.6",
+    "stripe": "^13.0.0"
   }
 }
