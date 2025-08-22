@@ -33,7 +33,7 @@ app.get('/facebook-callback', async (req, res) => {
             const tokenResponse = await axios.get('https://graph.facebook.com/v18.0/oauth/access_token', {
                 params: {
                     client_id: '2170655680106841',
-                    client_secret: '8ada5e72a00fc51a3480f021944ac35a',
+                    client_secret: process.env.FACEBOOK_APP_SECRET,
                     redirect_uri: 'http://localhost:3012/facebook-callback',
                     code: code
                 }
@@ -69,7 +69,7 @@ app.get('/linkedin-callback', async (req, res) => {
                     code: code,
                     redirect_uri: 'http://localhost:3012/linkedin-callback',
                     client_id: '78vhx4tmqc88tu',
-                    client_secret: 'WPL_AP1.N3diPlz3BaQML6Qo.icHynQ=='
+                    client_secret: process.env.LINKEDIN_CLIENT_SECRET
                 },
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
